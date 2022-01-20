@@ -146,46 +146,36 @@ An audio file can contain multiple speakers in two ways.
 * Multi-channel audio: Each channel has one speaker. (We only support stereo audio). In this case, you need to configure **separate_speaker_per_channel** ([example](examples/transcribe_audio_file_multi_channel.py))
 * Mono audio: All speakers are mixed on the same channel. In this case, you need to configure **diarization** ([example](examples/transcribe_audio_file_diarization.py))
 
-Notes:
-1. If your audio is stereo, but both channels have the same content, you should **NOT** configure **separate_speaker_per_channel**
+Please note here:
+1. If your audio is stereo but both channels have the same content, you should **NOT** configure **separate_speaker_per_channel**.
 2. **DO NOT** use diarization if speakers are already separated by channel.
 
 ### Compare transcription results
-To compare the results from multiple recognizers and know which one is more accurate for the application, 
-normally I'll start from reviewing a few results and have a sense of the weaknesses and strengths of each recognizer. 
-Sometimes, after I see a few examples, I can easily tell for a specific project, which recognizers work and which not.
+To compare the results from multiple recognizers and know which one is more accurate for the application, I'll normally start by reviewing a few results and getting a sense of the weaknesses and strengths of each recognizer. Sometimes, after I see a few examples, I can easily tell for a specific project which recognizers work and which do not.
 
-If you want to compare the result in a more scientific manner, you can prepare the gold standard reference, 
-and calculate **[Word Error Rate (WER)](https://en.wikipedia.org/wiki/Word_error_rate)** of the results from each STT provider. 
-However, calculating WER is not trivial, 
-because we don't want to penalize a recognizer if the difference (its result v.s. gold reference) is just the punctuation and capitalization. 
-Moreover, for a digit, it's both acceptable no matter whether using digit-format or spelled-out format. 
+If you want to compare the results in a more scientific manner, you can prepare the gold standard reference and calculate **[Word Error Rate (WER)](https://en.wikipedia.org/wiki/Word_error_rate)** of the results from each STT provider. However, calculating WER is not trivial, because we don't want to penalize a recognizer if the difference (its result vs. the gold reference) is just the punctuation and capitalization. Moreover, for a digit, it's both acceptable no matter whether using digit-format or spelled-out format.
+
 
 #### transcribe-compare package
 [Voicegain.ai](https://www.voicegain.ai/) provides a python package called [transcribe-compare](https://pypi.org/project/transcribe-compare/) 
 to help you calculate WER (and do more than that). 
-It solves many issues when calculating WER, including punctuation, capitalization and digits mentioned above.
-You can install the module using Python Package Index using the command below.
+It solves many issues when calculating WER, including punctuation, capitalization, and digits mentioned above.
+You can install the module using the Python Package Index using the command below.
 
      pip install transcribe-compare
 
 We provide a simple [example](examples/calculate_wer_using_transcribe_compare.py) of using **USTTC** and **transcribe-compare** together.
-You can also check their [GitHub page](https://github.com/voicegain/transcription-compare) and read more examples about advanced use cases.
+You can also check their [GitHub page](https://github.com/voicegain/transcription-compare) for more examples of advanced use cases.
 
 ### Ensemble
 *[This feature will be available soon]*
 
-After you compare the results from multiple recognizers, 
-you might realize that none of them are prefect (It is cold and brute reality). 
-Different STT provider might make mistakes in different places.
-If your budget allows, you can run multiple recognizers at the same time, 
-and get higher accuracy by ensembling their results. 
-This feature is on our roadmap.
+After you compare the results from multiple recognizers, you might realize that none of them is perfect (it is a cold and brute reality). Different STT providers might make mistakes in different places. If your budget allows, you can run multiple recognizers at the same time and get higher accuracy by ensembling their results. This feature is on our roadmap.
 
 ### Transcribe Audio Stream
 *[This feature will be available soon]*
 
-In some applications, it's important to stream the audio to the recognizer, 
+In some applications (e.g. real-time), it's important to stream the audio to the recognizer
 and get the result simultaneously. 
-All STT providers USTTC selected have the streaming feature. 
+All the STT providers that USTTC selected have the streaming feature. 
 The streaming wrapper will be available soon.
